@@ -13,7 +13,7 @@ export default function Home() {
         </ol>
 
         <div className={styles.ctas}>
-          <p>Hello {km.CommonTypesMessages.Error_InvalidXml({e: 'Hi'}).message}</p>
+          <p>Hello {km.CommonTypesMessages.Error_InvalidXml({e: 'Just Kidding'}).message}</p>
         </div>
       </main>
       <footer className={styles.footer}>

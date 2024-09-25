@@ -11,6 +11,7 @@
   "dependencies": {
     "@keymanapp/common-types": "^17.0.330",
     "@keymanapp/kdv-playground": "file:",
+    "@keymanapp/ldml-keyboard-constants": "^17.0.330",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18"
