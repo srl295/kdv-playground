@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@keymanapp/common-types": "^17.0.330",
     "@keymanapp/kdv-playground": "file:",
     "next": "14.2.13",
     "react": "^18",
