@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import { LDMLKeyboardXMLSourceFileReader, CompilerCallbacks, CompilerEvent, CompilerFileSystemCallbacks } from '@keymanapp/common-types';
 import { Button } from 'antd';
 
 async function fetchXml() {
@@ -14,9 +14,73 @@ function App() {
     text: "",
   });
 
+  const almostfs = {
+      readdirSync: function (name: string): string[] {
+        throw new Error('Function not implemented.');
+      },
+      readFileSync(): Uint8Array {
+        return (null as unknown) as Uint8Array;
+
+      },
+      // readFileSync: function (path: string, options?: { encoding?: null | undefined; flag?: string | undefined; } | null | undefined): Uint8Array {
+      //   throw new Error('Function not implemented.');
+      // },
+      writeFileSync: function (path: string, data: Uint8Array): void {
+        throw new Error('Function not implemented.');
+      },
+      existsSync: function (name: string): boolean {
+        throw new Error('Function not implemented.');
+      },
+  };
+  const fs = (almostfs as unknown) as CompilerFileSystemCallbacks;
+
+  const callbacks : CompilerCallbacks = {
+    loadFile: function (filename: string): Uint8Array {
+      throw new Error('Function not implemented.');
+    },
+    fileSize: function (filename: string): number {
+      throw new Error('Function not implemented.');
+    },
+    path: {
+      dirname: function (name: string): string {
+        throw new Error('Function not implemented.');
+      },
+      extname: function (name: string): string {
+        throw new Error('Function not implemented.');
+      },
+      basename: function (name: string, ext?: string | undefined): string {
+        throw new Error('Function not implemented.');
+      },
+      isAbsolute: function (name: string): boolean {
+        throw new Error('Function not implemented.');
+      },
+      join: function (...paths: string[]): string {
+        throw new Error('Function not implemented.');
+      },
+      normalize: function (p: string): string {
+        throw new Error('Function not implemented.');
+      }
+    },
+    fs,
+    resolveFilename: function (baseFilename: string, filename: string): string {
+      throw new Error('Function not implemented.');
+    },
+    reportMessage: function (event: CompilerEvent): void {
+      throw new Error('Function not implemented.');
+    },
+    debug: function (msg: string): void {
+      throw new Error('Function not implemented.');
+    },
+  };
+
   function update() {
     updateXmlData((o) => ({ ...o, updating: true }));
-    fetchXml().then((d) => updateXmlData((o) => ({ ...o, updating: false, text: d})));
+    fetchXml().then((d) => {
+      updateXmlData((o) => ({ ...o, updating: false, text: d}));
+      new LDMLKeyboardXMLSourceFileReader({
+        importsPath: '/dev/null'
+      }, callbacks).load((d as unknown) as Uint8Array);
+    });
   }
 
   if (xmlData.updating) {
